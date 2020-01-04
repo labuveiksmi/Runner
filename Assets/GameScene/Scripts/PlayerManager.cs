@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (!IsPlayerDie)
         {
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (InputController.IsSwipeUp)
             {
                 Jump();
             }
@@ -100,13 +100,13 @@ public class PlayerManager : MonoBehaviour
 
     private void Movement()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (InputController.IsSwipeLeft)
         {
             _playerRigidBody.AddForce(Vector3.left * _forceBiasSide, ForceMode.Impulse);
 
             Debug.Log("The player has moved to the left");
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (InputController.IsSwipeRight)
         {
             _playerRigidBody.AddForce(Vector3.right * _forceBiasSide, ForceMode.Impulse);
 

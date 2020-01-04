@@ -6,21 +6,25 @@
 
 ----
 
-A - move to left
+*Movement:*
 
-D - move to right
+- A | LMB Left Swipe | Android Left Swipe  - move to left
 
-Spacebar - jump
+- D | LMB Right Swipe | Android Right Swipe  - move to right
 
-O - increase 1 health point 
+- Spacebar | LMB Up Swipe | Android Up Swipe  - jump
 
-I - decrease 1 health point
+- O - increase 1 health point 
+
+- I - decrease 1 health point
+
+The InputController needs to be added to the scene for the swipe tracking to work.
 
 ## **Project version**
 
 ----
 
-0.0.2
+0.0.3
 
 ## **Build version**
 
