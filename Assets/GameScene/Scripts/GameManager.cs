@@ -11,6 +11,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 roadShift;
 
     private Vector3 endRoadPosition;
+    public static GameManager Instance;
+
+    #region Singleton
+
+    private void Awake()
+    {
+        if (!Instance)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
+    #endregion Singleton
 
     private void Start()
     {
@@ -22,8 +40,13 @@ public class GameManager : MonoBehaviour
         endRoadPosition = gameObject.transform.position;
         for (int i = 0; i < roadsAtStart; i++)
         {
-            poolManager.PoolRoad(endRoadPosition);
-            endRoadPosition += roadShift;
+            ExtendRoad();
         }
+    }
+
+    public void ExtendRoad()
+    {
+        poolManager.PoolRoad(endRoadPosition);
+        endRoadPosition += roadShift;
     }
 }
