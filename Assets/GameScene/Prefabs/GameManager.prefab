@@ -45,4 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolManager: {fileID: 0}
   roadsAtStart: 5
+  cameraFloatStep: 0.02
   roadShift: {x: 0, y: 0, z: 15}

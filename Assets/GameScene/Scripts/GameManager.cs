@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,8 +12,25 @@ public class GameManager : MonoBehaviour
     //Should change this to calculated value, if we using roads with different sizes
     [SerializeField] private Vector3 roadShift;
 
+    //public delegate void GameReady();
+
+    //public event GameReady GameIsReady;
+
     private Vector3 endRoadPosition;
     public static GameManager Instance;
+    private GameSceneUI gameSceneUI;
+
+    public GameSceneUI GameSceneUI
+    {
+        get
+        {
+            if (!gameSceneUI)
+            {
+                gameSceneUI = FindObjectOfType<GameSceneUI>();
+            }
+            return gameSceneUI;
+        }
+    }
 
     #region Singleton
 
@@ -27,6 +45,11 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void StartGame()
+    {
+        throw new NotImplementedException();
     }
 
     #endregion Singleton
@@ -44,9 +67,10 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
             float cameraShift = Mathf.Lerp(Camera.main.transform.position.y, 1, cameraFloatStep);
-            Debug.Log(cameraShift);
             Camera.main.transform.position = new Vector3(0, cameraShift, -10);
         }
+        //GameIsReady();
+        GameSceneUI.StartCountDown();
     }
 
     private void Initialize()
