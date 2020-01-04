@@ -2,11 +2,25 @@
 
 ---
 
+## **Notes**
+
+----
+
+A - move to left
+
+D - move to right
+
+Spacebar - jump
+
+O - increase 1 health point 
+
+I - decrease 1 health point
+
 ## **Project version**
 
 ----
 
-0.0.1
+0.0.2
 
 ## **Build version**
 
