@@ -1,3 +1,19 @@
+# **Runner_v0.0.4_b1_20200105_0100**
+
+---
+
+## **Added**
+
+---
+
+- InputController as prefab
+
+## **Fixed**
+
+---
+
+- Problem with LBM's swipes
+
 # **Runner_v0.0.3_b1_20200104_2206**
 
 ---

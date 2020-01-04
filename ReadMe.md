@@ -24,7 +24,7 @@ The InputController needs to be added to the scene for the swipe tracking to wor
 
 ----
 
-0.0.3
+0.0.4
 
 ## **Build version**
 

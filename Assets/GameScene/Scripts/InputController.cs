@@ -23,20 +23,20 @@ public class InputController : MonoBehaviour
 
         #region Standalone Inputs
 
-                //#region Mouse Inputs
+        #region Mouse Inputs
 
-        ////if (Input.GetMouseButtonDown(0))
-        ////{
-        ////    _tap = _isDraging = true;
-        ////    _startTouch = Input.mousePosition;
-        ////}
-        ////else if (Input.GetMouseButtonUp(0))
-        ////{
-        ////    _isDraging = false;
-        ////    Reset();
-        ////}
+        if (Input.GetMouseButtonDown(0))
+        {
+            _tap = _isDraging = true;
+            _startTouch = Input.mousePosition;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            _isDraging = false;
+            Reset();
+        }
 
-        //#endregion Mouse Inputs
+        #endregion Mouse Inputs
 
         #region Keyboard Inputs
 
@@ -126,16 +126,16 @@ public class InputController : MonoBehaviour
         }
 
     }
-    private void OnMouseDown()
-    {
-        _tap = _isDraging = true;
-        _startTouch = Input.mousePosition;
-    }
-    private void OnMouseUp()
-    {
-        _isDraging = false;
-        Reset();
-    }
+    //private void OnMouseDown()
+    //{
+    //    _tap = _isDraging = true;
+    //    _startTouch = Input.mousePosition;
+    //}
+    //private void OnMouseUp()
+    //{
+    //    _isDraging = false;
+    //    Reset();
+    //}
 
     private void Reset()
     {
