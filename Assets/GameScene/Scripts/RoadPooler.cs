@@ -32,7 +32,7 @@ public class RoadPooler : MonoBehaviour
 
     private GameObject CreateNewRoad()
     {
-        GameObject road = Instantiate(roadPrefab);
+        GameObject road = Instantiate(roadPrefab, transform);
         roadList.Add(road);
         road.SetActive(false);
         return road;

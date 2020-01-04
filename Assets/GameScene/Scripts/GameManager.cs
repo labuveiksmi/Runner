@@ -15,7 +15,9 @@ public class GameManager : MonoBehaviour
     //public delegate void GameReady();
 
     //public event GameReady GameIsReady;
+    public bool IsPlaing = false;
 
+    public Vector3 RoadMoovingSpeed = Vector3.back * 4;
     private Vector3 endRoadPosition;
     public static GameManager Instance;
     private GameSceneUI gameSceneUI;
@@ -49,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        throw new NotImplementedException();
+        IsPlaing = true;
     }
 
     #endregion Singleton
@@ -76,15 +78,25 @@ public class GameManager : MonoBehaviour
     private void Initialize()
     {
         endRoadPosition = gameObject.transform.position;
-        for (int i = 0; i < roadsAtStart; i++)
+        for (int i = 0; i < roadsAtStart - 1; i++)
         {
             ExtendRoad();
         }
+        //spawn last section without shifting endRoadPosition
+        // should be removed, if we start mooving one parent, instead of every road section
+        ExtendRoad(true);
     }
 
-    public void ExtendRoad()
+    /// <summary>
+    /// Spawning new Road section, at the end of current
+    /// </summary>
+    /// <param name="detector">true if we spawning road, cause of character movement</param>
+    public void ExtendRoad(bool detector = false)
     {
         poolManager.PoolRoad(endRoadPosition);
-        endRoadPosition += roadShift;
+        if (!detector)
+        {
+            endRoadPosition += roadShift;
+        }
     }
 }

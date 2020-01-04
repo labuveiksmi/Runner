@@ -446,16 +446,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3e226829cce1f4889d4197ee431f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2122619062 stripped
+--- !u!114 &2122619064 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1935888843487072151, guid: 9d9bf1ea1062d5041ab2304f721abbbe,
+  m_CorrespondingSourceObject: {fileID: 2108197503016584360, guid: 9d9bf1ea1062d5041ab2304f721abbbe,
     type: 3}
   m_PrefabInstance: {fileID: 5745053341227636426}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f3906e5228b2494bb10e3900d0cc2c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &10011923620709306
@@ -534,16 +534,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 541114086093713402, guid: 9d9bf1ea1062d5041ab2304f721abbbe,
-        type: 3}
-      propertyPath: countDown
-      value: 
-      objectReference: {fileID: 2122619062}
     - target: {fileID: 649817475000204049, guid: 9d9bf1ea1062d5041ab2304f721abbbe,
         type: 3}
       propertyPath: m_Name
       value: Canvas_GameScene
       objectReference: {fileID: 0}
+    - target: {fileID: 1935888843487072151, guid: 9d9bf1ea1062d5041ab2304f721abbbe,
+        type: 3}
+      propertyPath: countText
+      value: 
+      objectReference: {fileID: 2122619064}
     - target: {fileID: 5296156026675913155, guid: 9d9bf1ea1062d5041ab2304f721abbbe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -663,6 +663,11 @@ PrefabInstance:
       propertyPath: poolManager
       value: 
       objectReference: {fileID: 1758882013}
+    - target: {fileID: 6209409479867315064, guid: 11b1bcd28a2b1cb4faf735d213feccae,
+        type: 3}
+      propertyPath: RoadMoovingSpeed.z
+      value: -4
+      objectReference: {fileID: 0}
     - target: {fileID: 6209409479867315065, guid: 11b1bcd28a2b1cb4faf735d213feccae,
         type: 3}
       propertyPath: m_Name

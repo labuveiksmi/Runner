@@ -8,7 +8,7 @@ public class CharacterDetector : MonoBehaviour
     {
         if (other.tag == ConstantsStrings.PlayerTag)
         {
-            GameManager.Instance.ExtendRoad();
+            GameManager.Instance.ExtendRoad(true);
         }
     }
 }
