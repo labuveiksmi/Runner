@@ -4,15 +4,52 @@ using UnityEngine;
 
 public class RoadPooler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameObject roadPrefab;
+    [SerializeField] private int roadsInPool = 20;
+
+    private List<GameObject> roadList = new List<GameObject>();
+
+    private void Start()
     {
-        
+        InitializePool();
     }
 
-    // Update is called once per frame
-    void Update()
+    public GameObject GetPooledRoad()
     {
-        
+        GameObject road;
+        for (int i = 0; i < roadList.Count; i++)
+        {
+            road = roadList[i];
+            if (!road.activeInHierarchy)
+            {
+                return road;
+            }
+        }
+        //If we have no vacant road, we creating new one
+        road = CreateNewRoad();
+        return road;
+    }
+
+    private GameObject CreateNewRoad()
+    {
+        GameObject road = Instantiate(roadPrefab);
+        roadList.Add(road);
+        road.SetActive(false);
+        return road;
+    }
+
+    private void InitializePool()
+    {
+        for (int i = 0; i < roadsInPool; i++)
+        {
+            GameObject road = CreateNewRoad();
+        }
+    }
+
+    private IEnumerator RoadPool()
+    {
+        while (true)
+        {
+        }
     }
 }

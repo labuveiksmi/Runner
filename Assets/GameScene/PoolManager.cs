@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
-    public void StartPooling()
+    [SerializeField] private RoadPooler roadPooler;
+
+    public void PoolRoad(Vector3 position)
     {
+        GameObject road = roadPooler.GetPooledRoad();
+        road.transform.position = position;
+        road.SetActive(true);
     }
 }
