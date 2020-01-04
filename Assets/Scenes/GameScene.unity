@@ -197,7 +197,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421596959}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -387,6 +387,11 @@ PrefabInstance:
       propertyPath: poolManager
       value: 
       objectReference: {fileID: 1758882013}
+    - target: {fileID: 6209409479867315064, guid: 11b1bcd28a2b1cb4faf735d213feccae,
+        type: 3}
+      propertyPath: cameraFloatStep
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 6209409479867315065, guid: 11b1bcd28a2b1cb4faf735d213feccae,
         type: 3}
       propertyPath: m_Name
