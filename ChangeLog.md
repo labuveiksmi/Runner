@@ -1,3 +1,14 @@
+# **Runner_v0.0.5_b1_20200106_0020**
+
+---
+
+## **Added**
+
+---
+
+- Prototype settings page
+- Prototype processing turn on/off music & sounds
+
 # **Runner_v0.0.4_b1_20200105_0100**
 
 ---

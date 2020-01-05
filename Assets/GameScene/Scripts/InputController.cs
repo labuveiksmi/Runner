@@ -7,6 +7,7 @@ public class InputController : MonoBehaviour
     public static event Swipe OnSwipeRight;
     public static event Swipe OnSwipeUp;
 
+    //TODO: Need to delete
     public delegate void PressedButton();
     public static event PressedButton OnIncreaseHealthPoint;
     public static event PressedButton OnDecreaseHealthPoint;
@@ -126,16 +127,6 @@ public class InputController : MonoBehaviour
         }
 
     }
-    //private void OnMouseDown()
-    //{
-    //    _tap = _isDraging = true;
-    //    _startTouch = Input.mousePosition;
-    //}
-    //private void OnMouseUp()
-    //{
-    //    _isDraging = false;
-    //    Reset();
-    //}
 
     private void Reset()
     {

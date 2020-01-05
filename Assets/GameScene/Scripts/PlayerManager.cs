@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
 
     private enum MOVE { LEFT, RIGHT}
 
-
+    //TODO: HP need to delete from player
     [SerializeField] private float _healthPoint = 3f;
     [SerializeField] private float _forceJump = 10f; // 10
     [SerializeField] private float _forceBiasSide = 2.5f; // 2.5
@@ -72,10 +72,13 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("Event on swipe left");
         Movement(MOVE.LEFT);
     }
+
+    //TODO: HandlerOnIncreaseHealthPoint need to delete from player
     private void HandlerOnIncreaseHealthPoint()
     {
         IncreaseHealthPoint(1);
     }
+    //TODO: HandlerOnDecreaseHealthPoint need to delete from player
     private void HandlerOnDecreaseHealthPoint()
     {
         DecreaseHealthPoint(1);
@@ -94,12 +97,15 @@ public class PlayerManager : MonoBehaviour
 
     #endregion IENUMERATOR
 
+
+    //TODO: IncreaseHealthPoint need to delete from player
     private void IncreaseHealthPoint(int amountHealthPoint)
     {
         _healthPoint += amountHealthPoint;
         Debug.Log("Was added " + amountHealthPoint + " health points");
         Debug.Log("HP: " + _healthPoint);
     }
+    //TODO: DecreaseHealthPoint need to delete from player
     private void DecreaseHealthPoint(int amountHealthPoint)
     {
         if (_healthPoint <= 0)
