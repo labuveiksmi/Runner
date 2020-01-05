@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     private Vector3 endRoadPosition;
     public static GameManager Instance;
     private GameSceneUI gameSceneUI;
+    private int score = 0;
+    private int lives = 5;
 
     public GameSceneUI GameSceneUI
     {
@@ -71,7 +73,6 @@ public class GameManager : MonoBehaviour
             float cameraShift = Mathf.Lerp(Camera.main.transform.position.y, 1, cameraFloatStep);
             Camera.main.transform.position = new Vector3(0, cameraShift, -10);
         }
-        //GameIsReady();
         GameSceneUI.StartCountDown();
     }
 
@@ -93,10 +94,39 @@ public class GameManager : MonoBehaviour
     /// <param name="detector">true if we spawning road, cause of character movement</param>
     public void ExtendRoad(bool detector = false)
     {
-        poolManager.PoolRoad(endRoadPosition);
+        poolManager.CreateRoad(endRoadPosition);
         if (!detector)
         {
             endRoadPosition += roadShift;
         }
+        CreateStuffRandomly();
+    }
+
+    private void CreateStuffRandomly()
+    {
+        int randomNuber = UnityEngine.Random.Range(0, 20);
+        if (randomNuber > 10)
+        {
+            if (randomNuber > 15)
+            {
+                poolManager.PopDanger(endRoadPosition);
+            }
+            else
+            {
+                poolManager.PopCoin(endRoadPosition);
+            }
+        }
+    }
+
+    public void AddScore(int score)
+    {
+        this.score += score;
+        GameSceneUI.SetDisplayedScore(this.score);
+    }
+
+    public void TakeLive()
+    {
+        lives--;
+        GameSceneUI.SetDisplayedHealth(lives);
     }
 }

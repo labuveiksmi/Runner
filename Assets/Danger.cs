@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterDetector : MonoBehaviour
+public class Danger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(ConstantsStrings.PlayerTag))
         {
-            GameManager.Instance.ExtendRoad(true);
+            GameManager.Instance.TakeLive();
+            gameObject.SetActive(false);
         }
     }
 }

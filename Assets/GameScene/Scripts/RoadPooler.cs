@@ -42,14 +42,7 @@ public class RoadPooler : MonoBehaviour
     {
         for (int i = 0; i < roadsInPool; i++)
         {
-            GameObject road = CreateNewRoad();
-        }
-    }
-
-    private IEnumerator RoadPool()
-    {
-        while (true)
-        {
+            CreateNewRoad();
         }
     }
 }

@@ -5,21 +5,20 @@ using UnityEngine;
 public class GameSceneUI : MonoBehaviour
 {
     [SerializeField] private CountDown countDown = null;
+    [SerializeField] private HealthScore healthScore = null;
 
     public void StartCountDown()
     {
         countDown.gameObject.SetActive(true);
     }
 
-    //private void OnEnable()
-    //{
-    //    GameManager.Instance.GameIsReady += StartCountDown;
-    //    Debug.Log("subscribing to GameIsReady");
-    //}
+    public void SetDisplayedScore(int score)
+    {
+        healthScore.SetDisplayedScore(score);
+    }
 
-    //private void OnDisable()
-    //{
-    //    GameManager.Instance.GameIsReady -= StartCountDown;
-    //    Debug.Log("unsubscribing to GameIsReady");
-    //}
+    public void SetDisplayedHealth(int health)
+    {
+        healthScore.SetDisplayedHealth(health);
+    }
 }
