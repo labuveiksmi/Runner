@@ -3,20 +3,15 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    #region PUBLIC VARIABLES
+
+    public bool isShowDebugLog = true;
+
+    #endregion PUBLIC VARIABLES
+
     #region PUBLIC PROPERTIES
 
-    public bool IsCanJump { get { return _isCanJump; } }
-
-    #region DELEGATE
-
-    public delegate void PlayerDie();
-
-    #endregion DELEGATE
-    #region EVENTS
-
-    public static event PlayerDie OnPlayerDie;
-
-    #endregion EVENTS
+    public bool IsCanJump { get { return isCanJump; } }
 
     #endregion PUBLIC PROPERTIES
 
@@ -24,15 +19,13 @@ public class PlayerManager : MonoBehaviour
 
     private enum MOVE { LEFT, RIGHT}
 
-    //TODO: HP need to delete from player
-    [SerializeField] private float _healthPoint = 3f;
-    [SerializeField] private float _forceJump = 10f; // 10
-    [SerializeField] private float _forceBiasSide = 2.5f; // 2.5
-    [SerializeField] private float _timeReloadingJump = 1f;
+    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float sideBiasForce = 5f;
+    [SerializeField] private float jumpReloadingTime = 1f;
 
-    [SerializeField] private bool _isCanJump = true;
+    [SerializeField] private bool isCanJump = true;
 
-    private Rigidbody _playerRigidBody;
+    private Rigidbody playerRigidBody;
 
     #endregion PRIVATE VARIABLES
 
@@ -59,29 +52,21 @@ public class PlayerManager : MonoBehaviour
 
     private void HandlerOnSwipeUp()
     {
-        Debug.Log("Event on swipe up");
+        if (isShowDebugLog)
+            Debug.Log("Event on swipe up");
         Jump();
     }
     private void HandlerOnSwipeRight()
     {
-        Debug.Log("Event on swipe right");
+        if (isShowDebugLog)
+            Debug.Log("Event on swipe right");
         Movement(MOVE.RIGHT);
     }
     private void HandlerOnSwipeLeft()
     {
-        Debug.Log("Event on swipe left");
+        if (isShowDebugLog)
+            Debug.Log("Event on swipe left");
         Movement(MOVE.LEFT);
-    }
-
-    //TODO: HandlerOnIncreaseHealthPoint need to delete from player
-    private void HandlerOnIncreaseHealthPoint()
-    {
-        IncreaseHealthPoint(1);
-    }
-    //TODO: HandlerOnDecreaseHealthPoint need to delete from player
-    private void HandlerOnDecreaseHealthPoint()
-    {
-        DecreaseHealthPoint(1);
     }
 
     #endregion HANDLERS
@@ -90,62 +75,43 @@ public class PlayerManager : MonoBehaviour
 
     private IEnumerator IReloadingJump()
     {
-        _isCanJump = false;
-        yield return new WaitForSecondsRealtime(_timeReloadingJump);
-        _isCanJump = true;
+        isCanJump = false;
+        yield return new WaitForSecondsRealtime(jumpReloadingTime);
+        isCanJump = true;
     }
 
     #endregion IENUMERATOR
 
-
-    //TODO: IncreaseHealthPoint need to delete from player
-    private void IncreaseHealthPoint(int amountHealthPoint)
-    {
-        _healthPoint += amountHealthPoint;
-        Debug.Log("Was added " + amountHealthPoint + " health points");
-        Debug.Log("HP: " + _healthPoint);
-    }
-    //TODO: DecreaseHealthPoint need to delete from player
-    private void DecreaseHealthPoint(int amountHealthPoint)
-    {
-        if (_healthPoint <= 0)
-        {
-            OnPlayerDie?.Invoke();
-        }
-        else
-        {
-            _healthPoint -= amountHealthPoint;
-            Debug.Log("Was decrease " + amountHealthPoint + " health points");
-            Debug.Log("HP: " + _healthPoint);
-        }
-    }
     private void Jump()
     {
-        if (_isCanJump)
+        if (isCanJump)
         {
-            _playerRigidBody.AddForce(Vector3.up * _forceJump, ForceMode.Impulse);
+            playerRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             StartCoroutine(IReloadingJump());
 
-            Debug.Log("Player jumped");
+            if (isShowDebugLog)
+                Debug.Log("Player jumped");
         }
     }
     private void Initialize()
     {
-        _playerRigidBody = GetComponent<Rigidbody>();
+        playerRigidBody = GetComponent<Rigidbody>();
     }
     private void Movement(MOVE moveTO)
     {
         switch (moveTO)
         {
             case MOVE.LEFT:
-                _playerRigidBody.AddForce(Vector3.left * _forceBiasSide, ForceMode.Impulse);
+                playerRigidBody.AddForce(Vector3.left * sideBiasForce, ForceMode.Impulse);
 
-                Debug.Log("The player has moved to the left");
+                if (isShowDebugLog)
+                    Debug.Log("The player has moved to the left");
                 break;
             case MOVE.RIGHT:
-                _playerRigidBody.AddForce(Vector3.right * _forceBiasSide, ForceMode.Impulse);
+                playerRigidBody.AddForce(Vector3.right * sideBiasForce, ForceMode.Impulse);
 
-                Debug.Log("The player has moved to the right");
+                if (isShowDebugLog)
+                    Debug.Log("The player has moved to the right");
                 break;
         }
     }
@@ -154,17 +120,12 @@ public class PlayerManager : MonoBehaviour
         InputController.OnSwipeLeft += HandlerOnSwipeLeft;
         InputController.OnSwipeRight += HandlerOnSwipeRight;
         InputController.OnSwipeUp += HandlerOnSwipeUp;
-        InputController.OnIncreaseHealthPoint += HandlerOnIncreaseHealthPoint;
-        InputController.OnDecreaseHealthPoint += HandlerOnDecreaseHealthPoint;
     }
-    
     private void UnSubscribeEvents()
     {
         InputController.OnSwipeLeft -= HandlerOnSwipeLeft;
         InputController.OnSwipeRight -= HandlerOnSwipeRight;
         InputController.OnSwipeUp -= HandlerOnSwipeUp;
-        InputController.OnIncreaseHealthPoint -= HandlerOnIncreaseHealthPoint;
-        InputController.OnDecreaseHealthPoint -= HandlerOnDecreaseHealthPoint;
     }
 
     #endregion PRIVATE METHODS

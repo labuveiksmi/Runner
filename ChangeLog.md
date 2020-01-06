@@ -1,3 +1,20 @@
+# **Runner_v0.0.8_b1_20200106_1751**
+
+---
+
+## **Added**
+
+---
+
+- Material for player
+
+## **Changed**
+
+---
+
+- Player's properties
+- Player's script
+
 # **Runner_v0.0.7_b1_20200106_1720**
 
 ---
