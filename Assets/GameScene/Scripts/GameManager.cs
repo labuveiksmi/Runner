@@ -12,9 +12,6 @@ public class GameManager : MonoBehaviour
     //Should change this to calculated value, if we using roads with different sizes
     [SerializeField] private Vector3 roadShift;
 
-    //public delegate void GameReady();
-
-    //public event GameReady GameIsReady;
     public bool IsPlaing = false;
 
     public Vector3 RoadMoovingSpeed = Vector3.back * 4;
@@ -128,5 +125,10 @@ public class GameManager : MonoBehaviour
     {
         lives--;
         GameSceneUI.SetDisplayedHealth(lives);
+        if (lives < 1)
+        {
+            GameSceneUI.DisplayGameOver();
+            IsPlaing = false;
+        }
     }
 }

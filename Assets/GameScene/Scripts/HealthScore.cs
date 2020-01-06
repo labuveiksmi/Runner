@@ -10,11 +10,11 @@ public class HealthScore : MonoBehaviour
 
     public void SetDisplayedScore(int score)
     {
-        scoreText.text = score.ToString();
+        scoreText.text = "Score: " + score.ToString();
     }
 
     public void SetDisplayedHealth(int health)
     {
-        healthText.text = health.ToString();
+        healthText.text = "Health " + health.ToString();
     }
 }

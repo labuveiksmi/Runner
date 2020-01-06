@@ -8,6 +8,7 @@ public class Danger : MonoBehaviour
     {
         if (other.CompareTag(ConstantsStrings.PlayerTag))
         {
+            Debug.Log("picking up danger");
             GameManager.Instance.TakeLive();
             gameObject.SetActive(false);
         }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 10011925085170532}
   - component: {fileID: 10011925085170535}
+  - component: {fileID: 10011923620709308}
   m_Layer: 0
   m_Name: PoolManager
   m_TagString: Untagged
@@ -49,6 +50,18 @@ MonoBehaviour:
   roadPooler: {fileID: 10011923750318558}
   coinsPooler: {fileID: 6257937442876518532}
   dangerPooler: {fileID: 3344275812150770546}
+--- !u!114 &10011923620709308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10011925085170534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb9cfcbe72d138a43a1fa263e802a388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &294118846388177483
 PrefabInstance:
   m_ObjectHideFlags: 0
