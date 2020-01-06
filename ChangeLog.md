@@ -1,3 +1,14 @@
+# **Runner_v0.0.6_b1_20200106_1450**
+
+---
+
+## **Added**
+
+---
+
+- Storage script
+- Aliases for music, sounds, high score, is not first time
+
 # **Runner_v0.0.5_b1_20200106_0020**
 
 ---

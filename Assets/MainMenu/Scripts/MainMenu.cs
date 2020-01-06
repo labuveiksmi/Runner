@@ -6,6 +6,9 @@ public class MainMenu : MonoBehaviour
 {
     #region PRIVATE VARIABLES
 
+    [SerializeField] private Text textMusic;
+    [SerializeField] private Text textSounds;
+
     private bool isMusicOn = true;
     private bool isSoundsOn = true;
 
@@ -35,35 +38,63 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void OnMusicClick(Text uiText)
+    public void OnMusicClick()
     {
         /* Switch music status  */
         isMusicOn = !isMusicOn;
 
         Debug.Log("Music status: " + isMusicOn);
 
-        /* Set text of music status to UI */
-        uiText.text = "Music: " + (isMusicOn ? "On" : "Off");
+        UpdateUI();
 
-        //TODO: Add saving music status to storage
-        //...
-        //Storage.Save(aliasMusic, isMusicOn);
+        /* Saving music status to storage */
+        Storage.instance.SaveData(Storage.instance.aliasMusic, isMusicOn ? 1 : 0);
     }
 
-    public void OnSoundsClick(Text uiText)
+    public void OnSoundsClick()
     {
         /* Switch sounds status  */
         isSoundsOn = !isSoundsOn;
 
         Debug.Log("Sounds status: " + isSoundsOn);
 
-        /* Set text of sounds status to UI */
-        uiText.text = "Sounds: " + (isSoundsOn ? "On" : "Off");
+        UpdateUI();
 
-        //TODO: Add saving sounds status to storage
-        //...
-        //Storage.Save(aliasSounds, isSoundsOn);
+        /* Saving sounds status to storage */
+        Storage.instance.SaveData(Storage.instance.aliasSounds, isSoundsOn ? 1 : 0);
+    }
+
+    public void UpdateUI()
+    {
+        if (textMusic?.enabled == true)
+        {
+            textMusic.text = "Music: " + (isMusicOn ? "On" : "Off");
+        }
+        if (textSounds?.enabled == true)
+        {
+            textSounds.text = "Sounds: " + (isSoundsOn ? "On" : "Off");
+        }
     }
 
     #endregion PUBLIC METHODS
+
+    #region PRIVATE METHODS
+
+    #region NATIVE
+
+    private void Start()
+    {
+        Initialize();
+    }
+
+    #endregion NATIVE
+
+    private void Initialize()
+    {
+        /* Getting data from storage */
+        isMusicOn = Storage.instance.LoadData(Storage.instance.aliasMusic) == 1 ? true : false;
+        isSoundsOn = Storage.instance.LoadData(Storage.instance.aliasSounds) == 1 ? true : false;
+    }
+
+    #endregion PRIVATE METHODS
 }
