@@ -1,3 +1,21 @@
+# **Runner_v0.0.7_b1_20200106_1720**
+
+---
+
+## **Added**
+
+---
+
+- Left and right board from which the player can bounce
+
+## **Changed**
+
+---
+
+- Player's prefab properties
+
+
+
 # **Runner_v0.0.6_b1_20200106_1450**
 
 ---
