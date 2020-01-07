@@ -1,3 +1,20 @@
+# **Runner_v0.0.8.1_b1_20200107_1531**
+
+----
+
+## **Added**
+
+---
+
+- Vuforia Engine AR
+- Activation Vuforia Engine via Player Settings
+
+## **Changed**
+
+----
+
+- Vuforia Engine AR version to 8.6.7
+
 # **Runner_v0.0.8_b1_20200106_1751**
 
 ---
