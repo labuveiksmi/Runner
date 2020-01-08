@@ -1,3 +1,38 @@
+# **Runner_v0.0.8.2_b1_20200108_0310**
+
+---
+
+## **Added**
+
+---
+
+- AR Camera
+- Target image
+- UI for testing
+- Scene "GameSceneAR"
+- Vuforia's sample for image target
+- uGuiTool
+
+## **Changed**
+
+---
+
+- Player movement type
+- Minimal TargetSDK to API 19
+
+## Fixed
+
+---
+
+- Issue with axis during jump
+- Issue with axes X and Z during movement
+
+## **Deleted**
+
+---
+
+- Vulcan from "Graphics APIs" via Player Settings
+
 # **Runner_v0.0.8.1_b1_20200107_1531**
 
 ----

@@ -26,6 +26,8 @@ public class MainMenu : MonoBehaviour
     public void OnStartARGame()
     {
         Debug.Log("The player selected AR game");
+
+        SceneManager.LoadScene(ConstantsStrings.GameSceneAR);
     }
 
     public void OnExitFromGame()
