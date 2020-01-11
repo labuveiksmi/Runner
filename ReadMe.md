@@ -20,15 +20,15 @@
 
 Added button for activation a panel that allows turning on\off: Player's game object, Pool Manager's game objects, UI
 
-![Activation button](..\Runner\Images\image-20200111054341810.png)
+![Activation button](../AR/Images/image-20200111054341810.png)
 
 View the panel:
 
-![The panel for activation game objects](..\Runner\Images\image-20200111060031639.png)
+![The panel for activation game objects](../AR/Images/image-20200111060031639.png)
 
 Image Target for AR:
 
-![Vuforia's Image Target: Astronaut](..\Runner\Images\Vuforia_ImageTarget_Astronaut.jpg)
+![Vuforia's Image Target: Astronaut](../AR/Images/Vuforia_ImageTarget_Astronaut.jpg)
 
 ## **Project version**
 
