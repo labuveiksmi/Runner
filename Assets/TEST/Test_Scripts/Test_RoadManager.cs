@@ -26,7 +26,15 @@ public class Test_RoadManager : MonoBehaviour
 
     public float delayBeforeRebuildRoad;
 
-    [Space(order = 20)]
+    //[Space(order = 20)]
+
+    #region EVENTS
+
+    public delegate void ChangedSpeed();
+
+    public static event ChangedSpeed OnSpeedChanged;
+
+    #endregion EVENTS
 
     #endregion PUBLIC VARIABLES
 
@@ -35,6 +43,10 @@ public class Test_RoadManager : MonoBehaviour
     private List<Test_Road> _pooledRoad = new List<Test_Road>();
 
     private int _indexItemPooledRoad = 0;
+
+    private float _startSpeed;
+
+    private float _previousSpeed;
 
     #endregion PRIVATE VARIABLES
 
@@ -72,6 +84,7 @@ public class Test_RoadManager : MonoBehaviour
     private void OnEnable()
     {
         Test_Trigger.OnEnterTrigger += HandlerOnEnterTrigger;
+        OnSpeedChanged += HandlerOnChangedSpeed;
     }
 
     private void Start()
@@ -81,18 +94,11 @@ public class Test_RoadManager : MonoBehaviour
 
     private void Update()
     {
-        //TODO: For testing
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (_previousSpeed != speedRoadMovement)
         {
-            RebuildRoad();
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            MoveRoad(speedRoadMovement);
-        }
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            MoveRoad(0);
+            OnSpeedChanged?.Invoke();
+
+            _previousSpeed = speedRoadMovement;
         }
 
         MoveRoad(speedRoadMovement);
@@ -101,12 +107,16 @@ public class Test_RoadManager : MonoBehaviour
     private void OnDisable()
     {
         Test_Trigger.OnEnterTrigger -= HandlerOnEnterTrigger;
+        OnSpeedChanged -= HandlerOnChangedSpeed;
     }
 
     #endregion NATIVE
 
     private void Initialize()
     {
+        _startSpeed = speedRoadMovement;
+        _previousSpeed = speedRoadMovement;
+
         CreateRoadTrigger();
 
         CreateRoads();
@@ -121,6 +131,7 @@ public class Test_RoadManager : MonoBehaviour
         {
             Debug.LogFormat("{0}: {1}", nameof(lengthRoadInstance), lengthRoadInstance);
         }
+
         //TODO: Give normal name the variable and move variable to the inspector
         int halfRoads = (int)amountItemsInPool / 2;
         if (isShowDebugMessages)
@@ -154,7 +165,7 @@ public class Test_RoadManager : MonoBehaviour
 
     private void CreateRoadInstance()
     {
-        if(containerRoad != null)
+        if (containerRoad != null)
         {
             Test_Road roadInstance = Instantiate(original: prefabRoad, parent: containerRoad.transform);
             _pooledRoad.Add(roadInstance);
@@ -175,6 +186,33 @@ public class Test_RoadManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The method returns a new delay value which depends on the percent of the changed speed
+    /// </summary>
+    /// <param name="currentSpeed"></param>
+    /// <param name="startSpeed"></param>
+    /// <param name="delayRebuild"></param>
+    /// <returns>A new delay value</returns>
+    private float UpdateDelayRebuildRoad(float currentSpeed, float startSpeed, float delayRebuild)
+    {
+        const float ONE_HUNDRED_PERCENT = 100f;
+
+        // Get percent current speed. Then get percent difference
+        float percentChangedSpeed = ((ONE_HUNDRED_PERCENT * currentSpeed) / startSpeed) - ONE_HUNDRED_PERCENT;
+        if (isShowDebugMessages)
+        {
+            Debug.LogFormat("Percent of changed speed ({0}:{1})", nameof(percentChangedSpeed), percentChangedSpeed);
+        }
+
+        float percentUpdatedDelay = delayRebuild * (percentChangedSpeed / ONE_HUNDRED_PERCENT);
+        if (isShowDebugMessages)
+        {
+            Debug.LogFormat("{0}:{1}", nameof(percentUpdatedDelay), percentUpdatedDelay);
+        }
+
+        return delayRebuild - percentUpdatedDelay;
+    }
+
     #region HANDLERS
 
     private void HandlerOnEnterTrigger(GameObject target)
@@ -188,6 +226,11 @@ public class Test_RoadManager : MonoBehaviour
         {
             Invoke(nameof(RebuildRoad), delayBeforeRebuildRoad);
         }
+    }
+
+    private void HandlerOnChangedSpeed()
+    {
+        delayBeforeRebuildRoad = (delayBeforeRebuildRoad > 0) ? UpdateDelayRebuildRoad(speedRoadMovement, _startSpeed, delayBeforeRebuildRoad) : 0;
     }
 
     #endregion HANDLERS

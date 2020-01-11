@@ -1,3 +1,13 @@
+# **Runner_v0.0.8.4_b1_20200111_1845**
+
+---
+
+## **Fixed**
+
+---
+
+- Issue, when the road speed was high, then over time the player hung in space, and the road left and was created behind his back
+
 # **Runner_v0.0.8.3_b1_20200110_0531**
 
 ---
