@@ -14,17 +14,27 @@
 
 - Spacebar | LMB Up Swipe | Android Up Swipe  - jump
 
-- O - increase 1 health point 
+- O - increase 1 health point **[Obsolete]**
 
-- I - decrease 1 health point
+- I - decrease 1 health point **[Obsolete]**
 
-The InputController needs to be added to the scene for the swipe tracking to work.
+Added button for activation a panel that allows turning on\off: Player's game object, Pool Manager's game objects, UI
+
+![Activation button](..\Runner\Images\image-20200111054341810.png)
+
+View the panel:
+
+![The panel for activation game objects](..\Runner\Images\image-20200111060031639.png)
+
+Image Target for AR:
+
+![Vuforia's Image Target: Astronaut](..\Runner\Images\Vuforia_ImageTarget_Astronaut.jpg)
 
 ## **Project version**
 
 ----
 
-0.0.8.2
+0.0.8.3
 
 ## **Build version**
 

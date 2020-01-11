@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CoinsPooler : MonoBehaviour
 {
+    //TODO: For testing
+    public Transform parent;
+
     [SerializeField] private Coin coinsPrefab = null;
 
     private List<Coin> CoinsList = new List<Coin>();
@@ -23,7 +26,7 @@ public class CoinsPooler : MonoBehaviour
 
     private Coin CreateNewItem()
     {
-        Coin coin = Instantiate(coinsPrefab, transform);
+        Coin coin = Instantiate(coinsPrefab, /*transform*/parent);
         CoinsList.Add(coin);
         coin.gameObject.SetActive(false);
         return coin;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -58,7 +56,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Initialize();
-        StartCoroutine(PrepareGame());
+        //IsPlaing = true;
+        //StartCoroutine(PrepareGame());
     }
 
     private IEnumerator PrepareGame()
@@ -101,16 +100,32 @@ public class GameManager : MonoBehaviour
 
     private void CreateStuffRandomly()
     {
+        //TODO:[START] For testing
+        int randomValue = Random.Range(0, 2);
+        Vector3 randomPosition = endRoadPosition;
+
+        switch (randomValue)
+        {
+            case 0:
+                randomPosition = new Vector3(endRoadPosition.x - 0.025f, endRoadPosition.y, endRoadPosition.z);
+                break;
+            case 2:
+                randomPosition = new Vector3(endRoadPosition.x + 0.025f, endRoadPosition.y, endRoadPosition.z);
+                break;
+        }
+
+        //TODO:[END] For testing
+
         int randomNuber = UnityEngine.Random.Range(0, 20);
         if (randomNuber > 10)
         {
             if (randomNuber > 15)
             {
-                poolManager.PopDanger(endRoadPosition);
+                poolManager.PopDanger(randomPosition);
             }
             else
             {
-                poolManager.PopCoin(endRoadPosition);
+                poolManager.PopCoin(randomPosition);
             }
         }
     }

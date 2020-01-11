@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DangerPooler : MonoBehaviour
 {
+    //TODO: For testing
+    public Transform parent;
+
     [SerializeField] private Danger dangerPrefab = null;
 
     private List<Danger> dangersList = new List<Danger>();
@@ -23,7 +26,7 @@ public class DangerPooler : MonoBehaviour
 
     private Danger CreateNewItem()
     {
-        Danger danger = Instantiate(dangerPrefab, transform);
+        Danger danger = Instantiate(dangerPrefab, /*transform*/parent);
         dangersList.Add(danger);
         danger.gameObject.SetActive(false);
         return danger;

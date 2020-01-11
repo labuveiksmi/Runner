@@ -1,3 +1,27 @@
+# **Runner_v0.0.8.3_b1_20200110_0531**
+
+---
+
+## **Added**
+
+---
+
+- The panel for activation game objects
+- Reference of parent for coins and danger pooler
+- New version the Road Manager
+
+## **Changed**
+
+---
+
+- Temporarily value for bool "IsPlaying" to true
+
+## **Disabled**
+
+----
+
+- Countdown time
+
 # **Runner_v0.0.8.2_b1_20200108_0310**
 
 ---

@@ -47,3 +47,5 @@ MonoBehaviour:
   roadsAtStart: 5
   cameraFloatStep: 0.02
   roadShift: {x: 0, y: 0, z: 15}
+  IsPlaing: 0
+  RoadMoovingSpeed: {x: 0, y: 0, z: -0.02}
