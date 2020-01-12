@@ -3,237 +3,254 @@ using UnityEngine;
 
 public class Test_RoadManager : MonoBehaviour
 {
-    #region PUBLIC VARIABLES
+	#region PUBLIC VARIABLES
 
-    [Header("For testing", order = 10)]
-    public bool isShowDebugMessages = true;
+	[Header("Prefabs", order = 10)]
+	[Space(order = 20)]
+	public Test_Road prefabRoad;
+	public GameObject prefabTriggerOfRoad;
 
-    public float speedRoadMovement;
+	[Space(order = 20)]
+	[Header("Game objects", order = 10)]
+	public GameObject containerRoad;
 
-    [Space(order = 20)]
-    [Header("Prefabs", order = 10)]
-    public Test_Road prefabRoad;
+	//TODO: Under testing
+	[Space(order = 20)]
+	[Header("Properties", order = 10)]
+	public float delayBeforeRebuildRoad;
 
-    public GameObject prefabTriggerOfRoad;
+	#region EVENTS
 
-    [Space(order = 20)]
-    [Header("Game objects", order = 10)]
-    public GameObject containerRoad;
+	public delegate void ChangedSpeed();
+	public static event ChangedSpeed OnSpeedChanged;
 
-    [Space(order = 20)]
-    [Header("Properties", order = 10)]
-    public float amountItemsInPool;
+	#endregion EVENTS
 
-    public float delayBeforeRebuildRoad;
+	#endregion PUBLIC VARIABLES
 
-    //[Space(order = 20)]
+	#region PRIVATE VARIABLES
 
-    #region EVENTS
+	private static int _indexItemPooledRoad = 0;
 
-    public delegate void ChangedSpeed();
+	private List<Test_Road> _pooledRoad = new List<Test_Road>();
 
-    public static event ChangedSpeed OnSpeedChanged;
+	private float _startSpeed;
+	private float _previousSpeed;
+	private float _speedRoadMovement;
+	private float _amountItemsInPool;
 
-    #endregion EVENTS
+	private bool _isShowDebugMessages;
 
-    #endregion PUBLIC VARIABLES
+	#endregion PRIVATE VARIABLES
 
-    #region PRIVATE VARIABLES
+	#region PUBLIC METHODS
 
-    private List<Test_Road> _pooledRoad = new List<Test_Road>();
+	public void MoveRoad(float moveSpeed)
+	{
+		containerRoad.transform.position += Vector3.back * moveSpeed * Time.deltaTime;
+	}
 
-    private int _indexItemPooledRoad = 0;
+	public void RebuildRoad()
+	{
+		int lastItemIndex = _indexItemPooledRoad == 0 ? (_pooledRoad.Count - 1) : (_indexItemPooledRoad - 1);
 
-    private float _startSpeed;
+		Vector3 endPointLastItem = _pooledRoad[lastItemIndex].endPoint.position;
+		Vector3 beginPointSelectedItem = _pooledRoad[_indexItemPooledRoad].beginPoint.position;
 
-    private float _previousSpeed;
+		if (_isShowDebugMessages)
+		{
+			Debug.DrawLine(new Vector3(beginPointSelectedItem.x, (beginPointSelectedItem.y + 1) * 5, beginPointSelectedItem.z),
+						   new Vector3(endPointLastItem.x, (endPointLastItem.y + 1) * 5, endPointLastItem.z), Color.yellow, 5);
+		}
 
-    #endregion PRIVATE VARIABLES
+		_pooledRoad[_indexItemPooledRoad].transform.position += endPointLastItem - beginPointSelectedItem;
 
-    #region PUBLIC METHODS
+		_indexItemPooledRoad = (_indexItemPooledRoad >= _pooledRoad.Count - 1) ? 0 : _indexItemPooledRoad + 1;
+	}
 
-    public void MoveRoad(float moveSpeed)
-    {
-        containerRoad.transform.position += Vector3.back * moveSpeed * Time.deltaTime;
-    }
+	#endregion PUBLIC METHODS
 
-    public void RebuildRoad()
-    {
-        int lastItemIndex = _indexItemPooledRoad == 0 ? (_pooledRoad.Count - 1) : (_indexItemPooledRoad - 1);
+	#region PRIVATE METHODS
 
-        Vector3 endPointLastItem = _pooledRoad[lastItemIndex].endPoint.position;
-        Vector3 beginPointSelectedItem = _pooledRoad[_indexItemPooledRoad].beginPoint.position;
+	#region NATIVE
 
-        if (isShowDebugMessages)
-        {
-            Debug.DrawLine(new Vector3(beginPointSelectedItem.x, (beginPointSelectedItem.y + 1) * 5, beginPointSelectedItem.z),
-                           new Vector3(endPointLastItem.x, (endPointLastItem.y + 1) * 5, endPointLastItem.z), Color.yellow, 5);
-        }
+	private void OnEnable()
+	{
+		Test_Trigger.OnEnterTrigger += HandlerOnEnterTrigger;
+		OnSpeedChanged += HandlerOnChangedSpeed;
+	}
 
-        _pooledRoad[_indexItemPooledRoad].transform.position += endPointLastItem - beginPointSelectedItem;
+	private void Update()
+	{
+		if (_previousSpeed != _speedRoadMovement)
+		{
+			OnSpeedChanged?.Invoke();
 
-        _indexItemPooledRoad = (_indexItemPooledRoad >= _pooledRoad.Count - 1) ? 0 : _indexItemPooledRoad + 1;
-    }
+			_previousSpeed = _speedRoadMovement;
+		}
 
-    #endregion PUBLIC METHODS
+		//MoveRoad(_speedRoadMovement);
+	}
 
-    #region PRIVATE METHODS
+	private void OnDisable()
+	{
+		Test_Trigger.OnEnterTrigger -= HandlerOnEnterTrigger;
+		OnSpeedChanged -= HandlerOnChangedSpeed;
+	}
 
-    #region NATIVE
+	#endregion NATIVE
 
-    private void OnEnable()
-    {
-        Test_Trigger.OnEnterTrigger += HandlerOnEnterTrigger;
-        OnSpeedChanged += HandlerOnChangedSpeed;
-    }
+	public void Initialize(float speedRoadMovement, bool isShowDebugLog = true)
+	{
+		this._speedRoadMovement = speedRoadMovement;
+		_startSpeed = _speedRoadMovement;
+		_previousSpeed = _speedRoadMovement;
+		_isShowDebugMessages = isShowDebugLog;
+	}
 
-    private void Start()
-    {
-        Initialize();
-    }
+	private void CreateRoadTrigger(float numberItemsPool)
+	{
+		//TODO: [START] Create function for this
+		float lengthRoadInstance = Vector3.Distance(prefabRoad.beginPoint.position, prefabRoad.endPoint.position);
+		if (_isShowDebugMessages)
+		{
+			Debug.LogFormat("{0}: {1}", nameof(lengthRoadInstance), lengthRoadInstance);
+		}
 
-    private void Update()
-    {
-        if (_previousSpeed != speedRoadMovement)
-        {
-            OnSpeedChanged?.Invoke();
+		//TODO: Give normal name the variable and move variable to the inspector
+		int halfRoads = (int)numberItemsPool / 2;
+		if (_isShowDebugMessages)
+		{
+			Debug.LogFormat("{0}: {1}", nameof(halfRoads), halfRoads);
+		}
+		float distanceForTrigger = lengthRoadInstance * halfRoads;
+		if (_isShowDebugMessages)
+		{
+			Debug.LogFormat("{0}: {1}", nameof(distanceForTrigger), distanceForTrigger);
+		}
+		//TODO: [END] Create function for this
 
-            _previousSpeed = speedRoadMovement;
-        }
+		GameObject roadTriggerInstance = Instantiate(original: prefabTriggerOfRoad, parent: transform);
+		roadTriggerInstance.transform.localPosition = -roadTriggerInstance.transform.forward * distanceForTrigger;
+		if (_isShowDebugMessages)
+		{
+			Debug.DrawLine(start: roadTriggerInstance.transform.position, end: roadTriggerInstance.transform.up * 5, color: Color.blue, 5);
+			Debug.LogFormat("{0}: {1}", nameof(roadTriggerInstance.transform.position), roadTriggerInstance.transform.position);
+		}
+	}
 
-        MoveRoad(speedRoadMovement);
-    }
+	/// <summary>
+	/// The method creates road instances according to the number of items in the pool
+	/// </summary>
+	/// <param name="numberItemsPool"></param>
+	public void CreateRoad(float numberItemsPool)
+	{
+		if (numberItemsPool <= RoadProperties.MIN_ROAD_SIZE)
+		{
+			Debug.LogWarningFormat("({0}:{1}) is too small", nameof(numberItemsPool), numberItemsPool);
 
-    private void OnDisable()
-    {
-        Test_Trigger.OnEnterTrigger -= HandlerOnEnterTrigger;
-        OnSpeedChanged -= HandlerOnChangedSpeed;
-    }
+			return;
+		}
+		else if (numberItemsPool >= RoadProperties.MAX_ROAD_SIZE)
+		{
+			Debug.LogWarningFormat("({0}:{1}) is too big", nameof(numberItemsPool), numberItemsPool);
 
-    #endregion NATIVE
+			return;
+		}
 
-    private void Initialize()
-    {
-        _startSpeed = speedRoadMovement;
-        _previousSpeed = speedRoadMovement;
+		CreateRoadTrigger(numberItemsPool);
 
-        CreateRoadTrigger();
+		for (int i = 0; i < numberItemsPool; i++)
+		{
+			CreateRoadInstance(this.prefabRoad, containerRoad.transform);
+		}
 
-        CreateRoads();
-        SetRoadAlong();
-    }
+		BuildRoadAlong();
+	}
 
-    private void CreateRoadTrigger()
-    {
-        //TODO: [START] Create function for this
-        float lengthRoadInstance = Vector3.Distance(prefabRoad.beginPoint.position, prefabRoad.endPoint.position);
-        if (isShowDebugMessages)
-        {
-            Debug.LogFormat("{0}: {1}", nameof(lengthRoadInstance), lengthRoadInstance);
-        }
+	/// <summary>
+	/// The method creates a road instance, sets parent for the instance, adds to the list "Pooled Road"
+	/// </summary>
+	/// <param name="prefabRoad"></param>
+	/// <param name="parentInstance"></param>
+	private void CreateRoadInstance(Test_Road prefabRoad, Transform parentInstance)
+	{
+		if (parentInstance != null && prefabRoad != null)
+		{
+			Test_Road roadInstance = Instantiate(original: prefabRoad, parent: parentInstance.transform);
+			_pooledRoad.Add(roadInstance);
+		}
+		else if (parentInstance == null)
+		{
+			Debug.LogWarningFormat("{0} is null", nameof(parentInstance));
+		}
+		else if (prefabRoad == null)
+		{
+			Debug.LogWarningFormat("{0} is null", nameof(prefabRoad));
+		}
+		else
+		{
+			throw new System.Exception();
+		}
+	}
 
-        //TODO: Give normal name the variable and move variable to the inspector
-        int halfRoads = (int)amountItemsInPool / 2;
-        if (isShowDebugMessages)
-        {
-            Debug.LogFormat("{0}: {1}", nameof(halfRoads), halfRoads);
-        }
-        float distanceForTrigger = lengthRoadInstance * halfRoads;
-        if (isShowDebugMessages)
-        {
-            Debug.LogFormat("{0}: {1}", nameof(distanceForTrigger), distanceForTrigger);
-        }
-        //TODO: [END] Create function for this
+	private void BuildRoadAlong()
+	{
+		//TODO: Add checking for the list on null
+		for (int i = 1; i < _pooledRoad.Count; i++)
+		{
+			_pooledRoad[i].transform.position = _pooledRoad[i - 1].endPoint.position - _pooledRoad[i].beginPoint.position;
+		}
+	}
 
-        GameObject roadTriggerInstance = Instantiate(original: prefabTriggerOfRoad, parent: transform);
-        roadTriggerInstance.transform.localPosition = -roadTriggerInstance.transform.forward * distanceForTrigger;
-        if (isShowDebugMessages)
-        {
-            Debug.DrawLine(start: roadTriggerInstance.transform.position, end: roadTriggerInstance.transform.up * 5, color: Color.blue, 5);
-            Debug.LogFormat("{0}: {1}", nameof(roadTriggerInstance.transform.position), roadTriggerInstance.transform.position);
-        }
-    }
+	/// <summary>
+	/// The method returns a new delay value which depends on the percent of the changed speed
+	/// </summary>
+	/// <param name="currentSpeed"></param>
+	/// <param name="startSpeed"></param>
+	/// <param name="delayRebuild"></param>
+	/// <returns>A new delay value</returns>
+	private float UpdateDelayRebuildRoad(float currentSpeed, float startSpeed, float delayRebuild)
+	{
+		const float ONE_HUNDRED_PERCENT = 100f;
 
-    private void CreateRoads()
-    {
-        //TODO: Add checking for amountItemsInPool
-        for (int i = 0; i < amountItemsInPool; i++)
-        {
-            CreateRoadInstance();
-        }
-    }
+		// Get percent current speed. Then get percent difference
+		float percentChangedSpeed = (ONE_HUNDRED_PERCENT * currentSpeed / startSpeed) - ONE_HUNDRED_PERCENT;
+		if (_isShowDebugMessages)
+		{
+			Debug.LogFormat("Percent of changed speed ({0}:{1})", nameof(percentChangedSpeed), percentChangedSpeed);
+		}
 
-    private void CreateRoadInstance()
-    {
-        if (containerRoad != null)
-        {
-            Test_Road roadInstance = Instantiate(original: prefabRoad, parent: containerRoad.transform);
-            _pooledRoad.Add(roadInstance);
-        }
-        else
-        {
-            Debug.LogWarningFormat("{0} is null", nameof(containerRoad));
-        }
-    }
+		float percentUpdatedDelay = delayRebuild * (percentChangedSpeed / ONE_HUNDRED_PERCENT);
+		if (_isShowDebugMessages)
+		{
+			Debug.LogFormat("{0}:{1}", nameof(percentUpdatedDelay), percentUpdatedDelay);
+		}
 
-    //TODO: Give normal name the function
-    private void SetRoadAlong()
-    {
-        //TODO: Add checking for the list on null
-        for (int i = 1; i < _pooledRoad.Count; i++)
-        {
-            _pooledRoad[i].transform.position = _pooledRoad[i - 1].endPoint.position - _pooledRoad[i].beginPoint.position;
-        }
-    }
+		return delayRebuild - percentUpdatedDelay;
+	}
 
-    /// <summary>
-    /// The method returns a new delay value which depends on the percent of the changed speed
-    /// </summary>
-    /// <param name="currentSpeed"></param>
-    /// <param name="startSpeed"></param>
-    /// <param name="delayRebuild"></param>
-    /// <returns>A new delay value</returns>
-    private float UpdateDelayRebuildRoad(float currentSpeed, float startSpeed, float delayRebuild)
-    {
-        const float ONE_HUNDRED_PERCENT = 100f;
+	#region HANDLERS
 
-        // Get percent current speed. Then get percent difference
-        float percentChangedSpeed = ((ONE_HUNDRED_PERCENT * currentSpeed) / startSpeed) - ONE_HUNDRED_PERCENT;
-        if (isShowDebugMessages)
-        {
-            Debug.LogFormat("Percent of changed speed ({0}:{1})", nameof(percentChangedSpeed), percentChangedSpeed);
-        }
+	private void HandlerOnEnterTrigger(GameObject target)
+	{
+		if (_isShowDebugMessages)
+		{
+			Debug.LogFormat("{0} entered to the road trigger", target.name);
+		}
 
-        float percentUpdatedDelay = delayRebuild * (percentChangedSpeed / ONE_HUNDRED_PERCENT);
-        if (isShowDebugMessages)
-        {
-            Debug.LogFormat("{0}:{1}", nameof(percentUpdatedDelay), percentUpdatedDelay);
-        }
+		if (target.name.Equals(_pooledRoad[0].name))
+		{
+			Invoke(nameof(RebuildRoad), delayBeforeRebuildRoad);
+		}
+	}
 
-        return delayRebuild - percentUpdatedDelay;
-    }
+	private void HandlerOnChangedSpeed()
+	{
+		delayBeforeRebuildRoad = (delayBeforeRebuildRoad > 0) ? UpdateDelayRebuildRoad(_speedRoadMovement, _startSpeed, delayBeforeRebuildRoad) : 0;
+	}
 
-    #region HANDLERS
+	#endregion HANDLERS
 
-    private void HandlerOnEnterTrigger(GameObject target)
-    {
-        if (isShowDebugMessages)
-        {
-            Debug.LogFormat("{0} entered to the road trigger", target.name);
-        }
-
-        if (target.name.Equals(_pooledRoad[0].name))
-        {
-            Invoke(nameof(RebuildRoad), delayBeforeRebuildRoad);
-        }
-    }
-
-    private void HandlerOnChangedSpeed()
-    {
-        delayBeforeRebuildRoad = (delayBeforeRebuildRoad > 0) ? UpdateDelayRebuildRoad(speedRoadMovement, _startSpeed, delayBeforeRebuildRoad) : 0;
-    }
-
-    #endregion HANDLERS
-
-    #endregion PRIVATE METHODS
+	#endregion PRIVATE METHODS
 }

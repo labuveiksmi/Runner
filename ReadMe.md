@@ -34,7 +34,7 @@ Image Target for AR:
 
 ----
 
-- 0.0.8.4
+- 0.0.8.5
 
 
 ## **Build version**

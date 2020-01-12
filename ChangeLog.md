@@ -1,3 +1,14 @@
+# **Runner_v0.0.8.5_b1_20200112_0502**
+
+---
+
+## **Changed**
+
+---
+
+- Process of work GameManager script 
+- UI Panel for activation of game objects
+
 # **Runner_v0.0.8.4_b1_20200111_1845**
 
 ---
