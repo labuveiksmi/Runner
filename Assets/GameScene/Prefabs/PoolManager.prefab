@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 10011925085170534}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 10011923750318553}
   - {fileID: 7953621219111600672}
@@ -51,6 +51,7 @@ MonoBehaviour:
   roadPooler: {fileID: 10011923750318558}
   coinsPooler: {fileID: 6257937442876518532}
   dangerPooler: {fileID: 3344275812150770546}
+  _refRoadManager: {fileID: 10011924637505121}
 --- !u!114 &10011923620709308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,17 +461,17 @@ PrefabInstance:
     - target: {fileID: 6935046356496219534, guid: c0475742ce77f0047837042802f94072,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6935046356496219534, guid: c0475742ce77f0047837042802f94072,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6935046356496219534, guid: c0475742ce77f0047837042802f94072,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6935046356496219534, guid: c0475742ce77f0047837042802f94072,
         type: 3}
@@ -497,6 +498,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6935046356496219535, guid: c0475742ce77f0047837042802f94072,
+        type: 3}
+      propertyPath: delayBeforeRebuildRoad
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0475742ce77f0047837042802f94072, type: 3}
 --- !u!4 &10011924637505120 stripped
@@ -505,6 +511,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6925878857058462702}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &10011924637505121 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6935046356496219535, guid: c0475742ce77f0047837042802f94072,
+    type: 3}
+  m_PrefabInstance: {fileID: 6925878857058462702}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e03997644e8629408cad86c4136669c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &10011923778946022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6935046354553497608, guid: c0475742ce77f0047837042802f94072,

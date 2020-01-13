@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("The player selected simple game");
 
+        Storage.instance?.SaveData(Storage.instance.aliasGameType, (int)GAME_TYPE.SIMPLE_GAME);
         SceneManager.LoadScene(ConstantsStrings.GameScene);
     }
 
@@ -27,6 +28,7 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("The player selected AR game");
 
+        Storage.instance?.SaveData(Storage.instance.aliasGameType, (int)GAME_TYPE.AR_GAME);
         SceneManager.LoadScene(ConstantsStrings.GameSceneAR);
     }
 

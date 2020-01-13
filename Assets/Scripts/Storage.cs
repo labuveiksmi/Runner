@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+public enum GAME_TYPE { NOT_SELECTED = 0, SIMPLE_GAME, AR_GAME }
+
 public class Storage : MonoBehaviour
 {
     #region PUBLIC VARIABLES
@@ -10,6 +12,7 @@ public class Storage : MonoBehaviour
     public readonly string aliasMusic = "Music";
     public readonly string aliasSounds = "Sounds";
     public readonly string aliasHighScore = "High score";
+    public readonly string aliasGameType = "Game type";
 
     #endregion PUBLIC VARIABLES
 
@@ -37,17 +40,26 @@ public class Storage : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
-            Destroy(gameObject);
-        else
-            instance = this;
-
-        DontDestroyOnLoad(gameObject);
+        Singleton();
 
         InitializeData();
     }
 
     #endregion NATIVE
+
+    private void Singleton()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void InitializeData()
     {
@@ -59,6 +71,7 @@ public class Storage : MonoBehaviour
             SaveData(aliasMusic, 1);
             SaveData(aliasSounds, 1);
             SaveData(aliasHighScore, 0);
+            SaveData(aliasGameType, (int)GAME_TYPE.NOT_SELECTED);
         }
     }
 

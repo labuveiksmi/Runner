@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[System.Obsolete]
 public class PlayerManager : MonoBehaviour
 {
     #region PUBLIC VARIABLES

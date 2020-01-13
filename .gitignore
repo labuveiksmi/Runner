@@ -4,7 +4,7 @@
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
-[Bb]uilds/
+/[Bb]uilds/
 [Bb]uild/
 Assets/AssetStoreTools*
 
@@ -84,6 +84,6 @@ Thumbs.db
 sysinfo.txt
 
 # Builds
-#*.apk
+
 *.unitypackage
 

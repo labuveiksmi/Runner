@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[System.Obsolete]
 public class Mover : MonoBehaviour
 {
-    private void Update()
-    {
-        if (GameManager.Instance.IsPlaying)
-        {
-            transform.Translate(GameManager.Instance.RoadMoovingSpeed * Time.deltaTime);
-        }
-    }
+	private void Update()
+	{
+		if (GameManager.Instance.IsPlaying)
+		{
+			transform.Translate(GameManager.Instance.RoadMoovingSpeed * Time.deltaTime);
+		}
+	}
 }

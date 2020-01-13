@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1573694486}
   m_Layer: 0
   m_Name: '[Test]_Trigger_Of_Road'
-  m_TagString: Untagged
+  m_TagString: TriggerRoad
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4050695202627689603}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 1, z: 0.25}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalScale: {x: 8, y: 6, z: 22}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0

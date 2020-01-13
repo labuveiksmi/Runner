@@ -1,3 +1,36 @@
+# **Runner_v0.0.8.6_b1_20200114_0028**
+
+---
+
+## **Added**
+
+---
+
+- Ability to select game mode: AR Game or 3D Game
+- Tags
+
+## **Changed**
+
+---
+
+- Screen orientation to portrait
+- Render outside safe mode to false
+- Default quality to ultra
+- Constants for road properties
+- Directional light settings
+- Turned off the shadows
+- Main camera settings
+- Danger material
+
+## **Fixed**
+
+---
+
+- An issue with initializing coins and danger for AR Game
+- An issue with difference size between the game modes
+
+
+
 # **Runner_v0.0.8.5_b1_20200112_0502**
 
 ---

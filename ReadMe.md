@@ -30,11 +30,21 @@ Image Target for AR:
 
 ![Vuforia's Image Target: Astronaut](../AR/Images/Vuforia_ImageTarget_Astronaut.jpg)
 
+-----
+
+## **Temporarily** 
+
+---
+
+- Tracking apk
+
+
+
 ## **Project version**
 
 ----
 
-- 0.0.8.5
+- 0.0.8.6
 
 
 ## **Build version**

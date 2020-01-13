@@ -10,5 +10,9 @@ public class Danger : MonoBehaviour
 			GameManager.Instance.TakeLive();
 			gameObject.SetActive(false);
 		}
+		if (other.CompareTag(ConstantsStrings.TriggerRoadTag))
+		{
+			gameObject.SetActive(false);
+		}
 	}
 }

@@ -1,217 +1,221 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerVer2 : MonoBehaviour
 {
-	#region PUBLIC VARIABLES
+    #region PUBLIC PROPERTIES
 
+    public bool IsCanJump { get { return _isCanJump; } set { _isCanJump = value; } }
 
-	#endregion PUBLIC VARIABLES
+    #endregion PUBLIC PROPERTIES
 
-	#region PUBLIC PROPERTIES
+    #region PRIVATE VARIABLES
 
-	public bool IsCanJump { get { return _isCanJump; } set { _isCanJump = value; } }
+    private enum MOVE { LEFT, RIGHT }
 
-	#endregion PUBLIC PROPERTIES
+    [SerializeField] private float jumpForce;
+    /*[SerializeField] */
+    private float _sideBiasForce;
+    [SerializeField] private float jumpReloadingTime;
 
-	#region PRIVATE VARIABLES
+    /*[SerializeField] */
+    private bool _isCanJump;
+    private bool _isShowDebugMessages;
 
-	private enum MOVE { LEFT, RIGHT }
+    //TODO: For testing. After testing need to delete
+    [Header("Test", order = 20)]
+    [SerializeField] private GameObject prefabPlayerAxisForward;
+    [SerializeField] private GameObject prefabPlayerAxisRight;
 
-	[SerializeField] private float jumpForce;
-	/*[SerializeField] */private float _sideBiasForce;
-	[SerializeField] private float jumpReloadingTime;
+    //TODO: For testing. After testing need to delete
+    private GameObject playerForward;
+    private GameObject playerRight;
 
-	/*[SerializeField] */private bool _isCanJump;
-	private bool _isShowDebugMessages;
+    private Vector3 startPlayerPosition;
 
-	//TODO: For testing. After testing need to delete
-	[Header("Test", order = 20)]
-	[SerializeField] private GameObject prefabPlayerAxisForward;
-	[SerializeField] private GameObject prefabPlayerAxisRight;
+    #endregion PRIVATE VARIABLES
 
-	//TODO: For testing. After testing need to delete
-	private GameObject playerForward;
-	private GameObject playerRight;
+    #region PUBLIC METHODS
 
-	private Vector3 startPlayerPosition;
+    public void Initialize(float sideBiasForce, bool isShowDebugLog = true)
+    {
+        _sideBiasForce = sideBiasForce;
+        _isShowDebugMessages = isShowDebugLog;
+    }
 
-	#endregion PRIVATE VARIABLES
+    #endregion PUBLIC METHODS
 
-	#region PUBLIC METHODS
+    #region PRIVATE METHODS
 
-	public void Initialize(float sideBiasForce, bool isShowDebugLog = true)
-	{
-		_sideBiasForce = sideBiasForce;
-		_isShowDebugMessages = isShowDebugLog;
-	}
+    #region NATIVE
 
-	#endregion PUBLIC METHODS
+    private void OnEnable()
+    {
+        SubscribeEvents();
+    }
 
-	#region PRIVATE METHODS
+    private void OnDisable()
+    {
+        UnSubscribeEvents();
+    }
 
-	#region NATIVE
+    private void Start()
+    {
+        Initialize();
+    }
 
-	private void OnEnable()
-	{
-		SubscribeEvents();
-	}
+    #endregion NATIVE
 
-	private void OnDisable()
-	{
-		UnSubscribeEvents();
-	}
+    #region HANDLERS
 
-	private void Start()
-	{
-		Initialize();
-	}
+    private void HandlerOnSwipeUp()
+    {
+        if (_isShowDebugMessages)
+        {
+            Debug.Log("Event on swipe up");
+        }
 
-	#endregion NATIVE
+        Jump();
+    }
 
-	#region HANDLERS
+    private void HandlerOnSwipeRight()
+    {
+        if (_isShowDebugMessages)
+        {
+            Debug.Log("Event on swipe right");
+        }
 
-	private void HandlerOnSwipeUp()
-	{
-		if (_isShowDebugMessages)
-		{
-			Debug.Log("Event on swipe up");
-		}
+        Movement(MOVE.RIGHT);
+    }
 
-		Jump();
-	}
+    private void HandlerOnSwipeLeft()
+    {
+        if (_isShowDebugMessages)
+        {
+            Debug.Log("Event on swipe left");
+        }
 
-	private void HandlerOnSwipeRight()
-	{
-		if (_isShowDebugMessages)
-		{
-			Debug.Log("Event on swipe right");
-		}
+        Movement(MOVE.LEFT);
+    }
 
-		Movement(MOVE.RIGHT);
-	}
+    #endregion HANDLERS
 
-	private void HandlerOnSwipeLeft()
-	{
-		if (_isShowDebugMessages)
-		{
-			Debug.Log("Event on swipe left");
-		}
+    #region IENUMERATOR
 
-		Movement(MOVE.LEFT);
-	}
+    private IEnumerator IReloadingJump()
+    {
+        _isCanJump = false;
+        yield return new WaitForSecondsRealtime(jumpReloadingTime);
+        _isCanJump = true;
+    }
 
-	#endregion HANDLERS
+    private IEnumerator IJump()
+    {
+        transform.Translate(transform.up * jumpForce, Space.World);
+        yield return StartCoroutine(IReloadingJump());
+        transform.Translate(-transform.up * jumpForce, Space.World);
+    }
 
-	#region IENUMERATOR
+    #endregion IENUMERATOR
 
-	private IEnumerator IReloadingJump()
-	{
-		_isCanJump = false;
-		yield return new WaitForSecondsRealtime(jumpReloadingTime);
-		_isCanJump = true;
-	}
+    private void Initialize()
+    {
+        InitializePlayerDirection();
 
-	private IEnumerator IJump()
-	{
-		transform.Translate(transform.up * jumpForce, Space.World);
-		yield return StartCoroutine(IReloadingJump());
-		transform.Translate(-transform.up * jumpForce, Space.World);
-	}
+        if (Storage.instance?.LoadData(Storage.instance.aliasGameType) == (int)GAME_TYPE.AR_GAME ||
+            SceneManager.GetActiveScene().name.Equals(ConstantsStrings.GameSceneAR))
+        {
+            jumpForce /= 100f;
+        }
 
-	#endregion IENUMERATOR
+        startPlayerPosition = transform.position;
+    }
 
-	private void Initialize()
-	{
-		InitializePlayerDirection();
+    private void InitializePlayerDirection()
+    {
+        // Instantiate axes
+        playerForward = Instantiate(prefabPlayerAxisForward, transform);
+        playerRight = Instantiate(prefabPlayerAxisRight, transform);
 
-		startPlayerPosition = transform.position;
-	}
+        // Set parent for axes
+        playerForward.transform.parent = playerRight.transform.parent = transform;
+    }
 
-	private void InitializePlayerDirection()
-	{
-		// Instantiate axes
-		playerForward = Instantiate(prefabPlayerAxisForward, transform);
-		playerRight = Instantiate(prefabPlayerAxisRight, transform);
+    private void Jump()
+    {
+        if (_isCanJump)
+        {
+            StartCoroutine(IJump());
 
-		// Set parent for axes
-		playerForward.transform.parent = playerRight.transform.parent = transform;
-	}
+            if (_isShowDebugMessages)
+            {
+                Debug.Log("Player jumped");
+            }
+        }
+    }
 
-	private void Jump()
-	{
-		if (_isCanJump)
-		{
-			StartCoroutine(IJump());
+    private void Movement(MOVE moveTO)
+    {
+        switch (moveTO)
+        {
+            case MOVE.LEFT:
+                float extremeLeftPoint = (float)System.Math.Round(startPlayerPosition.x - _sideBiasForce, 3);
+                bool isPlayerPosMoreExtreme = transform.position.x > extremeLeftPoint;
 
-			if (_isShowDebugMessages)
-			{
-				Debug.Log("Player jumped");
-			}
-		}
-	}
+                if (isPlayerPosMoreExtreme)
+                {
+                    //TODO: Add smoothness in the future
+                    transform.position = new Vector3(transform.position.x - _sideBiasForce, transform.position.y, transform.position.z);
 
-	private void Movement(MOVE moveTO)
-	{
-		switch (moveTO)
-		{
-			case MOVE.LEFT:
-				float extremeLeftPoint = (float)System.Math.Round(startPlayerPosition.x - _sideBiasForce, 3);
-				bool isPlayerPosMoreExtreme = transform.position.x > extremeLeftPoint;
+                    if (_isShowDebugMessages)
+                    {
+                        Debug.Log("The player has moved to the left");
+                    }
+                }
+                else
+                {
+                    Debug.Log("The player has reached extreme left point");
+                }
 
-				if (isPlayerPosMoreExtreme)
-				{
-					//TODO: Add smoothness in the future
-					transform.position = new Vector3(transform.position.x - _sideBiasForce, transform.position.y, transform.position.z);
+                break;
 
-					if (_isShowDebugMessages)
-					{
-						Debug.Log("The player has moved to the left");
-					}
-				}
-				else
-				{
-					Debug.Log("The player has reached extreme left point");
-				}
+            case MOVE.RIGHT:
+                float extremeRightPoint = (float)System.Math.Round(startPlayerPosition.x + _sideBiasForce, 3);
+                bool isPlayerPosLessExtreme = transform.position.x < extremeRightPoint;
 
-				break;
+                if (isPlayerPosLessExtreme)
+                {
+                    //TODO: Add smoothness in the future
+                    transform.position = new Vector3(transform.position.x + _sideBiasForce, transform.position.y, transform.position.z);
 
-			case MOVE.RIGHT:
-				float extremeRightPoint = (float)System.Math.Round(startPlayerPosition.x + _sideBiasForce, 3);
-				bool isPlayerPosLessExtreme = transform.position.x < extremeRightPoint;
+                    if (_isShowDebugMessages)
+                    {
+                        Debug.Log("The player has moved to the right");
+                    }
+                }
+                else
+                {
+                    Debug.Log("The player has reached extreme right point");
+                }
 
-				if (isPlayerPosLessExtreme)
-				{
-					//TODO: Add smoothness in the future
-					transform.position = new Vector3(transform.position.x + _sideBiasForce, transform.position.y, transform.position.z);
+                break;
+        }
+    }
 
-					if (_isShowDebugMessages)
-					{
-						Debug.Log("The player has moved to the right");
-					}
-				}
-				else
-				{
-					Debug.Log("The player has reached extreme right point");
-				}
+    private void SubscribeEvents()
+    {
+        InputController.OnSwipeLeft += HandlerOnSwipeLeft;
+        InputController.OnSwipeRight += HandlerOnSwipeRight;
+        InputController.OnSwipeUp += HandlerOnSwipeUp;
+    }
 
-				break;
-		}
-	}
+    private void UnSubscribeEvents()
+    {
+        InputController.OnSwipeLeft -= HandlerOnSwipeLeft;
+        InputController.OnSwipeRight -= HandlerOnSwipeRight;
+        InputController.OnSwipeUp -= HandlerOnSwipeUp;
+    }
 
-	private void SubscribeEvents()
-	{
-		InputController.OnSwipeLeft += HandlerOnSwipeLeft;
-		InputController.OnSwipeRight += HandlerOnSwipeRight;
-		InputController.OnSwipeUp += HandlerOnSwipeUp;
-	}
-
-	private void UnSubscribeEvents()
-	{
-		InputController.OnSwipeLeft -= HandlerOnSwipeLeft;
-		InputController.OnSwipeRight -= HandlerOnSwipeRight;
-		InputController.OnSwipeUp -= HandlerOnSwipeUp;
-	}
-
-	#endregion PRIVATE METHODS
+    #endregion PRIVATE METHODS
 }

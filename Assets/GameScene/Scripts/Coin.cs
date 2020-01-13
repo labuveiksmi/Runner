@@ -11,5 +11,9 @@ public class Coin : MonoBehaviour
 			GameManager.Instance.AddScore(givesScore);
 			gameObject.SetActive(false);
 		}
+		if (other.CompareTag(ConstantsStrings.TriggerRoadTag))
+		{
+			gameObject.SetActive(false);
+		}
 	}
 }

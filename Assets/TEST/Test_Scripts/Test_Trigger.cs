@@ -8,5 +8,7 @@ public class Test_Trigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         OnEnterTrigger?.Invoke(other.gameObject);
+
+        GameManager.Instance.CreateStuffRandomly();
     }
 }

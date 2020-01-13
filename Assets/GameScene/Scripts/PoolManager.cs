@@ -16,21 +16,20 @@ public class PoolManager : MonoBehaviour
         road.SetActive(true);
     }
 
-    public void InitializeRoad(float speedRoadMovement, bool isShowDebugLog)
+    public void InitializeRoad( float speedRoadMovement, bool isShowDebugLog)
     {
         _refRoadManager.Initialize(speedRoadMovement, isShowDebugLog);
     }
 
-    public void CreateRoad(float roadSize)
+    public Vector3 CreateRoad(float roadSize)
     {
-        _refRoadManager.CreateRoad(roadSize);
+        return _refRoadManager.CreateRoad(roadSize);
     }
 
     public void MoveRoad(float speedRoadMovement)
     {
         _refRoadManager.MoveRoad(speedRoadMovement);
     }
-
 
     public void PopCoin(Vector3 position)
     {
